@@ -37,7 +37,7 @@ class _RandomNumberPickerState extends State<RandomNumberPicker> {
       mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
-          onTap: () => _setValue(),
+          onTap: _setValue,
           child: Container(
             width: 100,
             height: 100,
