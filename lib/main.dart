@@ -52,8 +52,8 @@ class Home extends StatelessWidget {
                   if (value == null) {
                     return 'Please select a value.';
                   }
-                  if (value % 2 == 0) {
-                    return 'Even numbers are not allowed.';
+                  if (value % 1 == 0) {
+                    return 'Odd numbers are not allowed.';
                   }
                   return null;
                 },
