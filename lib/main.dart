@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
                   if (value == null) {
                     return 'Please select a value.';
                   }
-                  if (value % 1 == 0) {
+                  if (value % 2 == 1) {
                     return 'Odd numbers are not allowed.';
                   }
                   return null;
