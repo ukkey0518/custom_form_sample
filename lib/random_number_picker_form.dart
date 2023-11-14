@@ -75,7 +75,7 @@ class _RandomNumberPickerState extends State<RandomNumberPicker> {
           onTap: widget.enabled ? _setValue : null,
           child: Container(
             width: 100,
-            height: 100,
+            height: kMinInteractiveDimension,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               border: Border.all(color: Theme.of(context).primaryColor),
