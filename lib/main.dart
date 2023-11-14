@@ -1,4 +1,5 @@
 import 'package:custom_form_sample/random_number_picker_form.dart';
+import 'package:custom_form_sample/simple_dropdown_form.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -31,6 +32,21 @@ class Home extends StatelessWidget {
                 initialValue: currentValue,
                 onChanged: (value) => currentValue = value,
                 validator: (value) {
+                  if (value == null) {
+                    return 'Please select a value.';
+                  }
+                  if (value % 2 == 0) {
+                    return 'Even numbers are not allowed.';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 20),
+              SimpleDropdownForm(
+                values: values,
+                initialValue: currentValue,
+                onChanged: (value) => currentValue = value ?? currentValue,
+                  validator: (value) {
                   if (value == null) {
                     return 'Please select a value.';
                   }
