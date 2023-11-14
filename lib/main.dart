@@ -18,10 +18,10 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
 
-    var currentText = 'Hello';
+    var currentText = 'Hi';
 
     const numbers = [1, 2, 3, 4, 5, 11, 12, 13, 14, 15];
-    var currentNumber = numbers[0];
+    var currentNumber = numbers[1];
 
     const colors = [
       Colors.red,
@@ -36,13 +36,13 @@ class Home extends StatelessWidget {
       body: Center(
         child: Form(
           key: formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // テキスト入力欄
-              SizedBox(
-                width: 200,
-                child: TextFormField(
+          child: SizedBox(
+            width: 200,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // テキスト入力欄
+                TextFormField(
                   initialValue: currentText,
                   onChanged: (value) => currentText = value,
                   validator: (value) {
@@ -55,63 +55,60 @@ class Home extends StatelessWidget {
                     return null;
                   },
                 ),
-              ),
-              const SizedBox(height: 20),
-              // ランダム数字選択欄
-              RandomNumberPickerForm(
-                values: numbers,
-                initialValue: currentNumber,
-                onChanged: (value) => currentNumber = value,
-                validator: (value) {
-                  if (value == null) {
-                    return '必須項目です。';
-                  }
-                  if (value % 2 == 0) {
-                    return '偶数は選択できません。';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              // カラー選択欄
-              SimpleDropdownForm(
-                values: colors,
-                initialValue: currentColor,
-                onChanged: (value) => currentColor = value ?? currentColor,
-                itemBuilder: (context, value) => Container(
-                  width: 100,
-                  height: 20,
-                  color: value,
+                const SizedBox(height: 20),
+                // ランダム数字選択欄
+                RandomNumberPickerForm(
+                  values: numbers,
+                  initialValue: currentNumber,
+                  onChanged: (value) => currentNumber = value,
+                  validator: (value) {
+                    if (value == null) {
+                      return '必須項目です。';
+                    }
+                    if (value % 2 == 0) {
+                      return '偶数は選択できません。';
+                    }
+                    return null;
+                  },
                 ),
-                validator: (value) {
-                  if (value == null) {
-                    return '必須項目です。';
-                  }
-                  if (value == Colors.red) {
-                    return '赤は選択できません。';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (!formKey.currentState!.validate()) {
-                    return;
-                  }
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    duration: const Duration(milliseconds: 300),
-                    backgroundColor: Theme.of(context).primaryColor,
-                    content: Text(
-                      'テキスト: $currentText, '
-                      '数字: $currentNumber, '
-                      'カラー: $currentColor',
-                    ),
-                  ));
-                },
-                child: const Text('確定'),
-              ),
-            ],
+                const SizedBox(height: 20),
+                // カラー選択欄
+                SimpleDropdownForm(
+                  values: colors,
+                  initialValue: currentColor,
+                  onChanged: (value) => currentColor = value ?? currentColor,
+                  itemBuilder: (context, value) => Container(
+                    width: double.infinity,
+                    height: 20,
+                    color: value,
+                  ),
+                  validator: (value) {
+                    if (value == null) {
+                      return '必須項目です。';
+                    }
+                    if (value == Colors.red) {
+                      return '赤は選択できません。';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    if (!formKey.currentState!.validate()) {
+                      return;
+                    }
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      backgroundColor: currentColor,
+                      content: Center(
+                        child: Text('[$currentNumber] $currentText'),
+                      ),
+                    ));
+                  },
+                  child: const Text('確定'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

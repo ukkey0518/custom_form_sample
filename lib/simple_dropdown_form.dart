@@ -70,43 +70,37 @@ class _SimpleDropdownState<T> extends State<SimpleDropdown<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Theme.of(context).primaryColor),
-          ),
-          width: 200,
-          child: ButtonTheme(
-            alignedDropdown: true,
-            child: DropdownButton<T>(
-              value: _currentValue,
-              isExpanded: true,
-              underline: Container(),
-              focusColor: Colors.transparent,
-              onChanged: widget.enabled ? setValue : null,
-              items: widget.values.map((value) {
-                return DropdownMenuItem<T>(
-                  value: value,
-                  child: widget.itemBuilder?.call(context, value) ??
-                      Text(value.toString()),
-                );
-              }).toList(),
-            ),
+    return InputDecorator(
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.zero,
+        errorText: widget.errorText,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
+        ),
+      ),
+      child: SizedBox(
+        width: 200,
+        child: ButtonTheme(
+          alignedDropdown: true,
+          child: DropdownButton<T>(
+            value: _currentValue,
+            isExpanded: true,
+            underline: Container(),
+            focusColor: Colors.transparent,
+            onChanged: widget.enabled ? setValue : null,
+            items: widget.values.map((value) {
+              return DropdownMenuItem<T>(
+                value: value,
+                child: widget.itemBuilder?.call(context, value) ??
+                    Text(value.toString()),
+              );
+            }).toList(),
           ),
         ),
-        if (widget.errorText != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Text(
-              widget.errorText!,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ),
-          )
-      ],
+      ),
     );
   }
 }

@@ -68,32 +68,34 @@ class _RandomNumberPickerState extends State<RandomNumberPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        InkWell(
+    return InputDecorator(
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.zero,
+        errorText: widget.errorText,
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).primaryColor),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
+        ),
+      ),
+      child: SizedBox(
+        height: kMinInteractiveDimension,
+        child: InkWell(
           onTap: widget.enabled ? _setValue : null,
           child: Container(
-            width: 200,
-            height: kMinInteractiveDimension,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border.all(color: Theme.of(context).primaryColor),
-            ),
-            child: Text(_currentValue?.toString() ?? ''),
-          ),
-        ),
-        if (widget.errorText != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
             child: Text(
-              widget.errorText!,
+              _currentValue?.toString() ?? '',
               style: TextStyle(
-                color: Theme.of(context).colorScheme.error,
+                fontSize: 16,
+                color: Theme.of(context).primaryColorDark,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          )
-      ],
+          ),
+        ),
+      ),
     );
   }
 }
