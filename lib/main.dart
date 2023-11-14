@@ -18,7 +18,8 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
     const values = [1, 2, 3, 4, 5, 11, 12, 13, 14, 15];
-    var currentValue = values[4];
+    var currentRandomNumberPickerValue = values[0];
+    var currentSimpleDropdownValue = values[0];
 
     return Scaffold(
       body: Center(
@@ -29,8 +30,8 @@ class Home extends StatelessWidget {
             children: [
               RandomNumberPickerForm(
                 values: values,
-                initialValue: currentValue,
-                onChanged: (value) => currentValue = value,
+                initialValue: currentRandomNumberPickerValue,
+                onChanged: (value) => currentRandomNumberPickerValue = value,
                 validator: (value) {
                   if (value == null) {
                     return 'Please select a value.';
@@ -44,9 +45,10 @@ class Home extends StatelessWidget {
               const SizedBox(height: 20),
               SimpleDropdownForm(
                 values: values,
-                initialValue: currentValue,
-                onChanged: (value) => currentValue = value ?? currentValue,
-                  validator: (value) {
+                initialValue: currentSimpleDropdownValue,
+                onChanged: (value) => currentSimpleDropdownValue =
+                    value ?? currentSimpleDropdownValue,
+                validator: (value) {
                   if (value == null) {
                     return 'Please select a value.';
                   }
@@ -65,7 +67,8 @@ class Home extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     duration: const Duration(milliseconds: 300),
                     backgroundColor: Theme.of(context).primaryColor,
-                    content: Text('Submitted!: $currentValue'),
+                    content: Text(
+                        'Submitted!: $currentRandomNumberPickerValue, $currentSimpleDropdownValue'),
                   ));
                 },
                 child: const Text('Submit'),

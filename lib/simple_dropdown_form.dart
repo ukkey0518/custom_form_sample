@@ -65,13 +65,11 @@ class _SimpleDropdownState<T> extends State<SimpleDropdown<T>> {
 
   void setValue(T? value) {
     setState(() => _currentValue = value);
-    widget.onChanged!.call(value);
+    widget.onChanged?.call(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    final enabled = widget.enabled && widget.onChanged != null;
-
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -87,7 +85,7 @@ class _SimpleDropdownState<T> extends State<SimpleDropdown<T>> {
               isExpanded: true,
               underline: Container(),
               focusColor: Colors.transparent,
-              onChanged: enabled ? setValue : null,
+              onChanged: widget.enabled ? setValue : null,
               items: widget.values.map((value) {
                 return DropdownMenuItem<T>(
                   value: value,
