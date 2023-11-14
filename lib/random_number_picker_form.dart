@@ -28,6 +28,7 @@ class RandomNumberPickerForm extends FormField<int> {
               initialValue: initialValue,
               onChanged: onChangedHandler,
               errorText: state.errorText,
+              enabled: enabled ?? true,
             );
           },
         );
@@ -42,12 +43,14 @@ class RandomNumberPicker extends StatefulWidget {
     required this.values,
     this.initialValue,
     this.onChanged,
+    this.enabled = true,
     this.errorText,
   });
 
   final List<int> values;
   final int? initialValue;
   final ValueChanged<int>? onChanged;
+  final bool enabled;
   final String? errorText;
 
   @override
@@ -69,7 +72,7 @@ class _RandomNumberPickerState extends State<RandomNumberPicker> {
       mainAxisSize: MainAxisSize.min,
       children: [
         InkWell(
-          onTap: _setValue,
+          onTap: widget.enabled ? _setValue : null,
           child: Container(
             width: 100,
             height: 100,
