@@ -26,9 +26,7 @@ class _RandomNumberPickerState extends State<RandomNumberPicker> {
   void _setValue() {
     final newValue = widget.values[Random().nextInt(widget.values.length)];
     setState(() => _currentValue = newValue);
-    if (widget.onChanged != null) {
-      widget.onChanged!(newValue);
-    }
+    widget.onChanged?.call(newValue);
   }
 
   @override
