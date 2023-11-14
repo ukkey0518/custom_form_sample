@@ -77,7 +77,7 @@ class _SimpleDropdownState<T> extends State<SimpleDropdown<T>> {
           decoration: BoxDecoration(
             border: Border.all(color: Theme.of(context).primaryColor),
           ),
-          width: 100,
+          width: 200,
           child: ButtonTheme(
             alignedDropdown: true,
             child: DropdownButton<T>(

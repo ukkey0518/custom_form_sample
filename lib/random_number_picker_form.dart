@@ -74,7 +74,7 @@ class _RandomNumberPickerState extends State<RandomNumberPicker> {
         InkWell(
           onTap: widget.enabled ? _setValue : null,
           child: Container(
-            width: 100,
+            width: 200,
             height: kMinInteractiveDimension,
             alignment: Alignment.center,
             decoration: BoxDecoration(
