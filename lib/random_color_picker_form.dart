@@ -2,12 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class RandomNumberPickerForm extends FormField<int> {
-  RandomNumberPickerForm({
+class RandomColorPickerForm extends FormField<Color> {
+  RandomColorPickerForm({
     super.key,
-    required List<int> values,
-    int? initialValue,
-    ValueChanged<int>? onChanged,
+    required List<Color> values,
+    Color? initialValue,
+    ValueChanged<Color>? onChanged,
     AutovalidateMode? autovalidateMode,
     bool? enabled,
     super.onSaved,
@@ -18,12 +18,12 @@ class RandomNumberPickerForm extends FormField<int> {
           autovalidateMode: autovalidateMode ?? AutovalidateMode.disabled,
           enabled: enabled ?? true,
           builder: (state) {
-            void onChangedHandler(int value) {
+            void onChangedHandler(Color value) {
               state.didChange(value);
               onChanged?.call(value);
             }
 
-            return RandomNumberPicker(
+            return RandomColorPicker(
               values: values,
               initialValue: initialValue,
               onChanged: onChangedHandler,
@@ -34,11 +34,11 @@ class RandomNumberPickerForm extends FormField<int> {
         );
 
   @override
-  FormFieldState<int> createState() => FormFieldState();
+  FormFieldState<Color> createState() => FormFieldState();
 }
 
-class RandomNumberPicker extends StatefulWidget {
-  const RandomNumberPicker({
+class RandomColorPicker extends StatefulWidget {
+  const RandomColorPicker({
     super.key,
     required this.values,
     this.initialValue,
@@ -47,23 +47,28 @@ class RandomNumberPicker extends StatefulWidget {
     this.errorText,
   });
 
-  final List<int> values;
-  final int? initialValue;
-  final ValueChanged<int>? onChanged;
+  final List<Color> values;
+  final Color? initialValue;
+  final ValueChanged<Color>? onChanged;
   final bool enabled;
   final String? errorText;
 
   @override
-  State<RandomNumberPicker> createState() => _RandomNumberPickerState();
+  State<RandomColorPicker> createState() => _RandomColorPickerState();
 }
 
-class _RandomNumberPickerState extends State<RandomNumberPicker> {
-  late int? _currentValue = widget.initialValue;
+class _RandomColorPickerState extends State<RandomColorPicker> {
+  late Color? _currentValue = widget.initialValue;
 
   void _setValue() {
-    final newValue = widget.values[Random().nextInt(widget.values.length)];
+    final newValue = getNewValue();
     setState(() => _currentValue = newValue);
     widget.onChanged?.call(newValue);
+  }
+
+  Color getNewValue() {
+    final newValue = widget.values[Random().nextInt(widget.values.length)];
+    return newValue == _currentValue ? getNewValue() : newValue;
   }
 
   @override
@@ -79,20 +84,13 @@ class _RandomNumberPickerState extends State<RandomNumberPicker> {
           borderSide: BorderSide(color: Theme.of(context).colorScheme.error),
         ),
       ),
-      child: SizedBox(
-        height: kMinInteractiveDimension,
-        child: InkWell(
-          onTap: widget.enabled ? _setValue : null,
-          child: Container(
-            alignment: Alignment.center,
-            child: Text(
-              _currentValue?.toString() ?? '',
-              style: TextStyle(
-                fontSize: 16,
-                color: Theme.of(context).primaryColorDark,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+      child: InkWell(
+        onTap: widget.enabled ? _setValue : null,
+        child: Container(
+          height: kMinInteractiveDimension,
+          margin: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: _currentValue,
           ),
         ),
       ),

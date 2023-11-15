@@ -1,5 +1,4 @@
-import 'package:custom_form_sample/random_number_picker_form.dart';
-import 'package:custom_form_sample/simple_dropdown_form.dart';
+import 'package:custom_form_sample/random_color_picker_form.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -20,10 +19,7 @@ class Home extends StatelessWidget {
 
     var currentText = 'Hi';
 
-    const numbers = [1, 2, 3, 4, 5, 11, 12, 13, 14, 15];
-    var currentNumber = numbers[1];
-
-    const colors = [
+    const colors = <Color>[
       Colors.red,
       Colors.green,
       Colors.blue,
@@ -31,6 +27,9 @@ class Home extends StatelessWidget {
       Colors.purple,
     ];
     var currentColor = colors[0];
+
+    const numbers = [1, 2, 3, 4, 5, 11, 12, 13, 14, 15];
+    var currentNumber = numbers[1];
 
     return Scaffold(
       body: Center(
@@ -41,7 +40,6 @@ class Home extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // テキスト入力欄
                 TextFormField(
                   initialValue: currentText,
                   onChanged: (value) => currentText = value,
@@ -56,11 +54,19 @@ class Home extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                // ランダム数字選択欄
-                RandomNumberPickerForm(
-                  values: numbers,
-                  initialValue: currentNumber,
-                  onChanged: (value) => currentNumber = value,
+                DropdownButtonFormField(
+                  items: numbers
+                      .map((number) => DropdownMenuItem(
+                            value: number,
+                            child: Text(number.toString()),
+                          ))
+                      .toList(),
+                  value: currentNumber,
+                  onChanged: (value) {
+                    if (value != null) {
+                      currentNumber = value;
+                    }
+                  },
                   validator: (value) {
                     if (value == null) {
                       return '必須項目です。';
@@ -72,16 +78,10 @@ class Home extends StatelessWidget {
                   },
                 ),
                 const SizedBox(height: 20),
-                // カラー選択欄
-                SimpleDropdownForm(
+                RandomColorPickerForm(
                   values: colors,
                   initialValue: currentColor,
-                  onChanged: (value) => currentColor = value ?? currentColor,
-                  itemBuilder: (context, value) => Container(
-                    width: double.infinity,
-                    height: 20,
-                    color: value,
-                  ),
+                  onChanged: (value) => currentColor = value,
                   validator: (value) {
                     if (value == null) {
                       return '必須項目です。';
